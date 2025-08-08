@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -6,54 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="icon" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1470&q=80');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      padding-bottom: 120px;
-    }
-    .card {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      padding: 30px 25px;
-      max-width: 400px;
-      width: 90%;
-      margin-top: 80px;
-    }
-  </style>
 </head>
-<body>
-
+<body style="background:#f8f9fa">
+<!-- Navbar -->
   <nav class="navbar navbar-expand-lg bg-primary fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand text-white" href="index.html">Net_Service</a>
-    </div>
-  </nav>
-<div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Reservacion
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="Horarios.html">Recervacion de Cabinas</a></li>
+              <li><a class="dropdown-item" href="Horarios.html">Reservacion de Cabinas</a></li>
             </ul>
           </li>
         </ul>
       </div>
-
+    </div>
+  </nav>
   <div class="container mt-5">
     <div class="card p-4 shadow">
       <h2 class="text-center">📅 Reservar Cabina</h2>
@@ -102,9 +78,12 @@
         if (result.estado === "reservado") {
           document.getElementById("resultado").textContent = "✅ Reserva completa";
           document.getElementById("resultado").className = "mt-3 text-center fw-bold text-success";
-        } else {
-          document.getElementById("resultado").textContent = "❌ No se pudo reservar.";
+        } else if (result.estado === "ocupado") {
+          document.getElementById("resultado").textContent = "❌ Ya tienes una reserva hoy.";
           document.getElementById("resultado").className = "mt-3 text-center fw-bold text-danger";
+        } else {
+          document.getElementById("resultado").textContent = "⚠ Error en el servidor.";
+          document.getElementById("resultado").className = "mt-3 text-center fw-bold text-warning";
         }
       } catch (error) {
         document.getElementById("resultado").textContent = "❌ Error de conexión.";
@@ -116,3 +95,4 @@
   </script>
 </body>
 </html>
+
