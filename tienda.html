@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tienda de Componentes</title>
+  <style>
+   body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 20px;
+  
+  background-image: url('https://i.pinimg.com/1200x/19/01/53/190153b3a910d34d186f4eaf0af3c6ec.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  backdrop-filter: blur(2px);
+  color: #fff;
+}
+
+h1 {
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 1px 1px 4px #000;
+}
+
+.producto {
+  background-color: rgba(255, 255, 255, 0.9); /* Blanco con transparencia */
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 10px;
+  display: inline-block;
+  width: 240px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  color: #000; /* texto negro para que se lea bien */
+}
+
+.producto:hover {
+  transform: scale(1.03);
+}
+
+.producto input {
+  width: 60px;
+  padding: 4px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.producto button {
+  margin-top: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.producto button:hover {
+  background-color: #0056b3;
+}
+
+#carrito {
+  margin-top: 30px;
+  background-color: rgba(0, 0, 0, 0.8); /* Contraste oscuro */
+  padding: 20px;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  color: #fff;
+}
+
+#carrito ul {
+  list-style: none;
+  padding: 0;
+}
+
+#carrito button {
+  background-color: green;
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#carrito button:hover {
+  background-color: darkgreen;
+  order-radius: 5px;
+}
+    .producto img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.producto img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+  </style>
+
+   <link rel="icon" type="text/css" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  </head>
+<body leftmargin="50px"topmargin="30px" marginwidth="50px" marginheight="30px">
+<div class="container">
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-lg bg-primary fixed-top" >
+
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html" style="color:white;">Net_Service</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="dark" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" style="color:white;" role="button" data-bs-toggle="dropdown" aria-expanded="false">COMPONENTES:</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="tienda.html">Compra de Componetes para PC o Laptop:</a></li>
+          </ul>
+        </li>
+      </ul>
+  </div>
+</nav>
+</div>
+
+<h1>________________________________________________</h1>
+  <h1>🛍️ Tienda de Componentes para Laptop y PC  → 🛒</h1>
+
+  <!-- Producto: Teclado Mecánico -->
+
+<div class="producto">
+  <img src="https://dojiw2m9tvv09.cloudfront.net/86841/product/image-removebg-preview-2023-10-14t123529-5925729.png" alt="Teclado Mecánico" class="producto-img">
+
+  <h3>Teclado Mecánico</h3>
+  <p>Precio: S/150</p>
+  <input type="number" id="cant-teclado" min="1" value="1">
+  <button onclick="agregarAlCarrito('Teclado Mecánico', 150, document.getElementById('cant-teclado').value)">Agregar → ✅</button>
+</div>
+
+  <!-- Producto: Audífonos Bluetooth -->
+
+  <div class="producto">
+    <img src="https://claroperupoc.vtexassets.com/arquivos/ids/1972336/audifonos-bluetooth-tws-maxell-mini-duo-azul-01.png?v=638783863235030000" alt="Audífonos Bluetooth" class="producto-img">
+    <h3>Audífonos Bluetooth</h3>
+    <p>Precio: S/120</p>
+    <input type="number" id="cant-bluetooth" min="1" value="1">
+    <button onclick="agregarAlCarrito('Audífonos Bluetooth', 120, document.getElementById('cant-bluetooth').value)">Agregar → ✅</button>
+  </div>
+
+  <!-- Producto: Memoria RAM -->
+
+  <div class="producto">
+     <img src="https://dojiw2m9tvv09.cloudfront.net/86841/product/image-removebg-preview-2023-10-14t133734-0349848.png" alt="Memoria RAM 8GB" class="producto-img">
+    <h3>Memoria RAM 8GB</h3>
+    <p>Precio: S/200</p>
+    <input type="number" id="cant-ram" min="1" value="1">
+    <button onclick="agregarAlCarrito('Memoria RAM 8GB', 200, document.getElementById('cant-ram').value)">Agregar → ✅</button>
+  </div>
+
+  <!-- Producto: Pantalla LED -->
+
+  <div class="producto">
+     <img src="https://images.samsung.com/is/image/samsung/p6pim/latin/lf24t350fhnxza/gallery/latin-t35f-422752-lf24t350fhnxza-546960054?$684_547_PNG$" alt="Pantalla LED 24" class="producto-img">
+    <h3>Pantalla LED 24</h3>
+    <p>Precio: S/450</p>
+    <input type="number" id="cant-pantalla" min="1" value="1">
+    <button onclick="agregarAlCarrito('Pantalla LED 24', 450, document.getElementById('cant-pantalla').value)">Agregar → ✅</button>
+  </div>
+
+  <!-- Producto: Audífonos Gamer -->
+
+  <div class="producto">
+     <img src="https://www.antryx.com/wp-content/uploads/2023/12/GH-Raider-Plus-01-300x300.png" alt="Audifonos Gamer" class="producto-img">
+    <h3>Audífonos Gamer</h3>
+    <p>Precio: S/120</p>
+    <input type="number" id="cant-audifonos" min="1" value="1">
+    <button onclick="agregarAlCarrito('Audífonos Gamer', 120, document.getElementById('cant-audifonos').value)">Agregar → ✅</button>
+  </div>
+
+  <!-- Producto: Mouse Gamer -->
+
+  <div class="producto">
+     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2JOKd5ztqkAysJjzPnvCzz9fVN3fpJ04J7EhaIXr4gVmzoDNK-wVbEJSfwXsSNhikdeM&usqp=CAU" alt="Mouse Gamer" class="producto-img">
+    <h3>Mouse Gamer</h3>
+    <p>Precio: S/70</p>
+    <input type="number" id="cant-mouse" min="1" value="1">
+    <button onclick="agregarAlCarrito('Mouse Gamer', 70, document.getElementById('cant-mouse').value)">Agregar → ✅</button>
+  </div>
+
+  <!-- Producto: Disco SSD -->
+
+  <div class="producto">
+     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5xyXsp1BqtnJV5IiBmfp9UBnCltmZJh2iYA&s" alt="Disco SSD 480GB" class="producto-img">
+    <h3>Disco SSD 480GB</h3>
+    <p>Precio: S/250</p>
+    <input type="number" id="cant-ssd" min="1" value="1">
+    <button onclick="agregarAlCarrito('Disco SSD 480GB', 250, document.getElementById('cant-ssd').value)">Agregar → ✅</button>
+  </div>
+
+  <!-- Carrito -->
+
+  <div id="carrito">
+    <h2>Carrito de Compras → 🛒</h2>
+    <ul id="lista-carrito"></ul>
+    <p><strong>Total: S/<span id="total">0</span></strong></p>
+    <button onclick="comprar()">Comprar</button>
+  </div>
+
+  <!-- Script -->
+
+<script>
+  let total = 0;
+  const listaCarrito = document.getElementById('lista-carrito');
+  const totalSpan = document.getElementById('total');
+
+  function agregarAlCarrito(nombre, precio, cantidad) {
+    cantidad = parseInt(cantidad);
+    if (isNaN(cantidad) || cantidad <= 0) {
+      alert("Cantidad no válida");
+      return;
+    }
+
+    const item = document.createElement('li');
+    item.textContent = `${cantidad} x ${nombre} - S/${precio * cantidad}`;
+
+    // Botón para eliminar producto
+    const botonEliminar = document.createElement('button');
+    botonEliminar.textContent = " ❌ ";
+    botonEliminar.style.marginLeft = '10px';
+    botonEliminar.style.backgroundColor = '#dc3545';
+    botonEliminar.style.color = 'white';
+    botonEliminar.style.border = 'none';
+    botonEliminar.style.padding = '5px 8px';
+    botonEliminar.style.borderRadius = '5px';
+    botonEliminar.style.cursor = 'pointer';
+    botonEliminar.onclick = function () {
+      listaCarrito.removeChild(item);
+      total -= precio * cantidad;
+      totalSpan.textContent = total;
+    };
+
+    item.appendChild(botonEliminar);
+    listaCarrito.appendChild(item);
+
+    total += precio * cantidad;
+    totalSpan.textContent = total;
+  }
+
+  function comprar() {
+    if (total === 0) {
+      alert('El carrito está vacío.');
+      return;
+    }
+
+    // Confirmación de compra
+    const confirmar = confirm('¿Deseas confirmar tu compra por S/' + total + '?');
+
+    if (confirmar) {
+      alert('✅ Gracias por su compra. Total: S/' + total);
+      listaCarrito.innerHTML = '';
+      total = 0;
+      totalSpan.textContent = total;
+    } else {
+      alert('❌ Compra cancelada.');
+    }
+  }
+</script>
+</body>
+</html>

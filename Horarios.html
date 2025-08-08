@@ -1,0 +1,118 @@
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reservas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding-bottom: 120px;
+    }
+    .card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 30px 25px;
+      max-width: 400px;
+      width: 90%;
+      margin-top: 80px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg bg-primary fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white" href="index.html">Net_Service</a>
+    </div>
+  </nav>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Reservacion
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="Horarios.html">Recervacion de Cabinas</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+  <div class="container mt-5">
+    <div class="card p-4 shadow">
+      <h2 class="text-center">📅 Reservar Cabina</h2>
+      <form id="reservaForm">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre completo</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+        <div class="mb-3">
+          <label for="dni" class="form-label">DNI</label>
+          <input type="text" class="form-control" id="dni" name="dni" maxlength="8" pattern="\d{8}" required>
+        </div>
+        <div class="mb-3">
+          <label for="inicio" class="form-label">Hora de Inicio</label>
+          <input type="time" class="form-control" id="inicio" name="inicio" required>
+        </div>
+        <div class="mb-3">
+          <label for="fin" class="form-label">Hora de Fin</label>
+          <input type="time" class="form-control" id="fin" name="fin" required>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Reservar</button>
+      </form>
+      <div id="resultado" class="mt-3 text-center fw-bold"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("reservaForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const datos = {
+        nombre: document.getElementById("nombre").value.trim(),
+        dni: document.getElementById("dni").value.trim(),
+        inicio: document.getElementById("inicio").value,
+        fin: document.getElementById("fin").value
+      };
+
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbyCFCuJvJhSFjWvRo3i99Xd3fFNEgFmC4-CkLu9oymvi2suJbQ83EDx3mjX3-rvPGAMPw/exec", {
+          method: "POST",
+          body: JSON.stringify(datos),
+          headers: { "Content-Type": "application/json" }
+        });
+        const result = await response.json();
+
+        if (result.estado === "reservado") {
+          document.getElementById("resultado").textContent = "✅ Reserva completa";
+          document.getElementById("resultado").className = "mt-3 text-center fw-bold text-success";
+        } else {
+          document.getElementById("resultado").textContent = "❌ No se pudo reservar.";
+          document.getElementById("resultado").className = "mt-3 text-center fw-bold text-danger";
+        }
+      } catch (error) {
+        document.getElementById("resultado").textContent = "❌ Error de conexión.";
+        document.getElementById("resultado").className = "mt-3 text-center fw-bold text-danger";
+      }
+
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
