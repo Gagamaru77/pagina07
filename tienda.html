@@ -1,279 +1,628 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Tienda de Componentes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-   body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 20px;
-  
-  background-image: url('https://i.pinimg.com/1200x/19/01/53/190153b3a910d34d186f4eaf0af3c6ec.jpg');
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px 0 40px 0;
+      background-image: url('https://i.pinimg.com/1200x/19/01/53/190153b3a910d34d186f4eaf0af3c6ec.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      backdrop-filter: blur(2px);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  backdrop-filter: blur(2px);
-  color: #fff;
-}
+    h1 {
+      text-align: center;
+      color: #ffffff;
+      text-shadow: 1px 1px 4px #000;
+      width: 90%;
+      max-width: 900px;
+      margin-bottom: 20px;
+    }
 
-h1 {
-  text-align: center;
-  color: #ffffff;
-  text-shadow: 1px 1px 4px #000;
-}
+    /* Contenedor carrusel */
+    .carousel-container {
+      width: 90%;
+      max-width: 900px;
+      overflow-x: auto;
+      display: flex;
+      gap: 20px;
+      scroll-behavior: smooth;
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #888 transparent;
+    }
 
-.producto {
-  background-color: rgba(255, 255, 255, 0.9); /* Blanco con transparencia */
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin: 10px;
-  display: inline-block;
-  width: 240px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  color: #000; /* texto negro para que se lea bien */
-}
+    .carousel-container::-webkit-scrollbar {
+      height: 8px;
+    }
 
-.producto:hover {
-  transform: scale(1.03);
-}
+    .carousel-container::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
 
-.producto input {
-  width: 60px;
-  padding: 4px;
-  margin-top: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
+    /* Producto estilo tarjeta */
+    .producto {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      padding: 15px;
+      min-width: 250px;
+      flex-shrink: 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      color: #000;
+      transition: transform 0.3s ease;
+      user-select: none;
+    }
 
-.producto button {
-  margin-top: 10px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.2s;
-}
+    .producto:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
 
-.producto button:hover {
-  background-color: #0056b3;
-}
-
-#carrito {
-  margin-top: 30px;
-  background-color: rgba(0, 0, 0, 0.8); /* Contraste oscuro */
-  padding: 20px;
-  border: 1px solid #aaa;
-  border-radius: 10px;
-  color: #fff;
-}
-
-#carrito ul {
-  list-style: none;
-  padding: 0;
-}
-
-#carrito button {
-  background-color: green;
-  padding: 10px 20px;
-  color: white;
-  border: none;
-  margin-top: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#carrito button:hover {
-  background-color: darkgreen;
-  order-radius: 5px;
-}
     .producto img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 10px;
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .producto input {
+      width: 60px;
+      padding: 5px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .producto button {
+      margin-top: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.2s;
+      font-weight: bold;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .producto button:hover {
+      background-color: #0056b3;
+    }
+
+    #carrito {
+      margin-top: 10px;
+      background-color: rgba(0, 0, 0, 0.85);
+      padding: 20px;
+      border: 1px solid #aaa;
+      border-radius: 10px;
+      color: #fff;
+      width: 90%;
+      max-width: 900px;
+      box-sizing: border-box;
+    }
+
+    #carrito ul {
+      list-style: none;
+      padding: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+
+    #carrito li {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #carrito li button {
+      background-color: #dc3545;
+      padding: 4px 8px;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #carrito button#btn-comprar {
+      background-color: #25d366; /* verde Yape */
+      padding: 12px 20px;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 18px;
+      width: 100%;
+      box-shadow: 0 5px 10px rgba(37, 211, 102, 0.6);
+      transition: background-color 0.3s ease;
+    }
+
+    #carrito button#btn-comprar:hover {
+      background-color: #1aa34a;
+    }
+
+    /* Modal Yape */
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 9999; 
+      padding-top: 100px; 
+      left: 0; top: 0; width: 100%; height: 100%; 
+      overflow: auto; 
+      background-color: rgba(0,0,0,0.6);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 25px 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      color: #000;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      font-size: 16px;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 24px;
+    }
+
+    .modal-content p {
+      margin: 15px 0;
+      font-weight: 600;
+    }
+
+   .modal-content img {
+  width: 200px;
+  max-width: 90vw;
+  margin: 0 auto 15px auto; /* centrado horizontal */
+  display: block;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
-.producto img {
-  width: 100%;
-  height: 150px;
-  object-fit: contain;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
+
+    .modal-content button {
+      background-color: #25d366;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 18px;
+      width: 100%;
+      box-shadow: 0 5px 10px rgba(37, 211, 102, 0.7);
+      transition: background-color 0.3s ease;
+    }
+
+    .modal-content button:hover {
+      background-color: #1aa34a;
+    }
   </style>
 
-   <link rel="icon" type="text/css" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  </head>
-<body leftmargin="50px"topmargin="30px" marginwidth="50px" marginheight="30px">
-<div class="container">
-  <!--Navbar-->
-  <nav class="navbar navbar-expand-lg bg-primary fixed-top" >
-
-  <div class="container-fluid">
-    <a class="navbar-brand" href="index.html" style="color:white;">Net_Service</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="dark" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" style="color:white;" role="button" data-bs-toggle="dropdown" aria-expanded="false">COMPONENTES:</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="tienda.html">Compra de Componetes para PC o Laptop:</a></li>
+  <link rel="icon" type="text/css" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg bg-primary fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html" style="color:white;">Net_Service</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" style="color:white;" role="button" data-bs-toggle="dropdown" aria-expanded="false">COMPONENTES:</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="tienda.html">Compra de Componetes para PC o Laptop:</a></li>
+              </ul>
+            </li>
           </ul>
-        </li>
-      </ul>
+        </div>
+      </div>
+    </nav>
   </div>
-</nav>
+ <h3 class="text-center mt-4"><span style="color: blue;">🥶</span></h3>
+
+  <h1>🛍️ Componentes para Laptop y PC → 🛒</h1>
+
+  <!-- Carrusel productos -->
+  <div class="carousel-container" id="carouselProductos">
+    <!-- Producto 1 -->
+    <div class="producto" data-name="Teclado Mecánico" data-price="150">
+      <img src="https://dojiw2m9tvv09.cloudfront.net/86841/product/image-removebg-preview-2023-10-14t123529-5925729.png" alt="Teclado Mecánico" />
+      <h3>Teclado Mecánico</h3>
+      <p>Precio: S/150</p>
+      <input type="number" min="1" value="1" />
+      <button>Agregar → ✅</button>
+    </div>
+
+    <!-- Producto 2 -->
+    <div class="producto" data-name="Audífonos Bluetooth" data-price="120">
+      <img src="https://claroperupoc.vtexassets.com/arquivos/ids/1972336/audifonos-bluetooth-tws-maxell-mini-duo-azul-01.png?v=638783863235030000" alt="Audífonos Bluetooth" />
+      <h3>Audífonos Bluetooth</h3>
+      <p>Precio: S/120</p>
+      <input type="number" min="1" value="1" />
+      <button>Agregar → ✅</button>
+    </div>
+
+    <!-- Producto 3 -->
+    <div class="producto" data-name="Memoria RAM 8GB" data-price="200">
+      <img src="https://dojiw2m9tvv09.cloudfront.net/86841/product/image-removebg-preview-2023-10-14t133734-0349848.png" alt="Memoria RAM 8GB" />
+      <h3>Memoria RAM 8GB</h3>
+      <p>Precio: S/200</p>
+      <input type="number" min="1" value="1" />
+      <button>Agregar → ✅</button>
+    </div>
+
+    <!-- Producto 4 -->
+    <div class="producto" data-name="Pantalla LED 24" data-price="450">
+      <img src="https://images.samsung.com/is/image/samsung/p6pim/latin/lf24t350fhnxza/gallery/latin-t35f-422752-lf24t350fhnxza-546960054?$684_547_PNG$" alt="Pantalla LED 24" />
+      <h3>Pantalla LED 24</h3>
+      <p>Precio: S/450</p>
+      <input type="number" min="1" value="1" />
+      <button>Agregar → ✅</button>
+    </div>
+
+    <!-- Producto 5 -->
+    <div class="producto" data-name="Audífonos Gamer" data-price="120">
+      <img src="https://www.antryx.com/wp-content/uploads/2023/12/GH-Raider-Plus-01-300x300.png" alt="Audífonos Gamer" />
+      <h3>Audífonos Gamer</h3>
+      <p>Precio: S/120</p>
+      <input type="number" min="1" value="1" />
+      <button>Agregar → ✅</button>
+    </div>
+
+    <!-- Producto 6 -->
+    <div class="producto" data-name="Mouse Gamer" data-price="70">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2JOKd5ztqkAysJjzPnvCzz9fVN3fpJ04J7EhaIXr4gVmzoDNK-wVbEJSfwXsSNhikdeM&usqp=CAU" alt="Mouse Gamer" />
+      <h3>Mouse Gamer</h3>
+      <p>Precio: S/70</p>
+      <input type="number" min="1" value="1" />
+      <button>Agregar → ✅</button>
+    </div>
+
+    <!-- Producto 7 -->
+    <div class="producto" data-name="Disco SSD 480GB" data-price="250">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5xyXsp1BqtnJV5IiBmfp9UBnCltmZJh2iYA&s" alt="Disco SSD 480GB" />
+      <h3>Disco SSD 480GB</h3>
+      <p>Precio: S/250</p>
+      <input type="number" min="1" value="1" />
+      <button>Agregar → ✅</button>
+    </div>
+
+    <!-- Producto 8 (nuevo) -->
+    <div class="producto" data-name="Fuente de Poder 600W" data-price="300">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRabwrSseAfhHy0S8AVpV2KJvfsgipSadgUg&s" alt="Fuente de Poder 600W" />
+      <h3>Fuente de Poder 600W</h3>
+      <p>Precio: S/300</p>
+      <input type="number" min="1" value="1" />
+      <button>Agregar → ✅</button>
+    </div>
+
+<!-- Producto nuevo -->
+<div class="producto" data-name="Monitor Curvo 27" data-price="1200">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0BivkUzF3S0ygyPJJ27lmu5Se4ByyJv8Ogw&s" alt="Monitor Curvo 27''" />
+  <h3>Monitor Curvo 27''</h3>
+  <p>Precio: S/1200</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
 </div>
 
-<h1>________________________________________________</h1>
-  <h1>🛍️ Tienda de Componentes para Laptop y PC  → 🛒</h1>
-
-  <!-- Producto: Teclado Mecánico -->
-
-<div class="producto">
-  <img src="https://dojiw2m9tvv09.cloudfront.net/86841/product/image-removebg-preview-2023-10-14t123529-5925729.png" alt="Teclado Mecánico" class="producto-img">
-
-  <h3>Teclado Mecánico</h3>
-  <p>Precio: S/150</p>
-  <input type="number" id="cant-teclado" min="1" value="1">
-  <button onclick="agregarAlCarrito('Teclado Mecánico', 150, document.getElementById('cant-teclado').value)">Agregar → ✅</button>
+<!-- Producto 10 -->
+<div class="producto" data-name="Cámara Web HD" data-price="180">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbEoIj24JrguOsLk-G1qvOqKCZfEP21XupQw&s" alt="Cámara Web HD" />
+  <h3>Cámara Web HD</h3>
+  <p>Precio: S/180</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
 </div>
 
-  <!-- Producto: Audífonos Bluetooth -->
+<!-- Producto 11 -->
+<div class="producto" data-name="Router WiFi 6" data-price="350">
+  <img src="https://promart.vteximg.com.br/arquivos/ids/5966575-1000-1000/image-bec6ebd910824526ab640c6d9be20a88.jpg?v=637923086935300000" alt="Router WiFi 6" />
+  <h3>Router WiFi 6</h3>
+  <p>Precio: S/350</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
 
-  <div class="producto">
-    <img src="https://claroperupoc.vtexassets.com/arquivos/ids/1972336/audifonos-bluetooth-tws-maxell-mini-duo-azul-01.png?v=638783863235030000" alt="Audífonos Bluetooth" class="producto-img">
-    <h3>Audífonos Bluetooth</h3>
-    <p>Precio: S/120</p>
-    <input type="number" id="cant-bluetooth" min="1" value="1">
-    <button onclick="agregarAlCarrito('Audífonos Bluetooth', 120, document.getElementById('cant-bluetooth').value)">Agregar → ✅</button>
+<!-- Producto 12 -->
+<div class="producto" data-name="Teclado RGB" data-price="220">
+  <img src="https://dojiw2m9tvv09.cloudfront.net/86841/product/F_k673-ucal-pro-wb4898.jpg?68&time=1752875913" alt="Teclado RGB" />
+  <h3>Teclado RGB</h3>
+  <p>Precio: S/220</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 13 -->
+<div class="producto" data-name="Mouse Inalámbrico" data-price="95">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8phAHsKznlNDzSL4_rJZwBOz566zm0_zqDA&s" alt="Mouse Inalámbrico" />
+  <h3>Mouse Inalámbrico</h3>
+  <p>Precio: S/95</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 14 -->
+<div class="producto" data-name="Disco Duro Externo 2TB" data-price="480">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ZOwmyN9S5tQocALjtVcz10VJZ4u0-1H5WA&s" alt="Disco Duro Externo 2TB" />
+  <h3>Disco Duro Externo 2TB</h3>
+  <p>Precio: S/480</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 15 -->
+<div class="producto" data-name="Memoria USB 128GB" data-price="130">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT9ZOavLdkLQXKUX8Drs0Fun6F1oK1bkIQKw&s" alt="Memoria USB 128GB" />
+  <h3>Memoria USB 128GB</h3>
+  <p>Precio: S/130</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 16 -->
+<div class="producto" data-name="Micrófono USB" data-price="160">
+  <img src="https://hdmultimediaperu.com/wp-content/uploads/2023/07/Microfono-para-Laptop-M-306.webp" alt="Micrófono USB" />
+  <h3>Micrófono USB</h3>
+  <p>Precio: S/160</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 17 -->
+<div class="producto" data-name="Audífonos Gaming" data-price="200">
+  <img src="https://promart.vteximg.com.br/arquivos/ids/7466537-1000-1000/image-7d64004cbb66477da41c2443d569dae8.jpg?v=638297926069530000" alt="Audífonos Gaming" />
+  <h3>Audífonos Gaming</h3>
+  <p>Precio: S/200</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 18 -->
+<div class="producto" data-name="Base Refrigerante Laptop" data-price="110">
+  <img src="https://oechsle.vteximg.com.br/arquivos/ids/14307614/image-00878a17eb7e40c7829062ab4d300b6a.jpg?v=638280802485200000" alt="Base Refrigerante Laptop" />
+  <h3>Base Refrigerante Laptop</h3>
+  <p>Precio: S/110</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 19 -->
+<div class="producto" data-name="Tarjeta Gráfica RTX 3060" data-price="1800">
+  <img src="https://m.media-amazon.com/images/I/81nsIeRAJlL._AC_SL1500_.jpg" alt="Tarjeta Gráfica RTX 3060" />
+  <h3>Tarjeta Gráfica RTX 3060</h3>
+  <p>Precio: S/1800</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 20 -->
+<div class="producto" data-name="Placa Madre ATX" data-price="750">
+  <img src="https://oechsle.vteximg.com.br/arquivos/ids/16370566-1000-1000/image-0.jpg?v=638315950542500000" alt="Placa Madre ATX" />
+  <h3>Placa Madre ATX</h3>
+  <p>Precio: S/750</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 21 -->
+<div class="producto" data-name="Fuente de Poder Modular 750W" data-price="480">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVsxbGKaNsqapaDZ1k1WIrn4FbrVpqbqOidw&s" alt="Fuente de Poder Modular 750W" />
+  <h3>Fuente de Poder Modular 750W</h3>
+  <p>Precio: S/480</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 23 -->
+<div class="producto" data-name="Laptop Gamer 16GB RAM" data-price="4300">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1k1z9k1OexdchEBRDJlCLX3nT5nXKG1a4JA&s" alt="Laptop Gamer 16GB RAM" />
+  <h3>Laptop Gamer 16GB RAM</h3>
+  <p>Precio: S/4300</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 24 -->
+<div class="producto" data-name="Mousepad XXL Gaming" data-price="65">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiSMngtGcBO3xkDkQvTUpEupoxwIPYKK3aCA&s" alt="Mousepad XXL Gaming" />
+  <h3>Mousepad XXL Gaming</h3>
+  <p>Precio: S/65</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 25 -->
+<div class="producto" data-name="SSD NVMe 1TB" data-price="480">
+  <img src="https://coolboxpe.vtexassets.com/arquivos/ids/348088/SNV2S1000G_3.jpg?v=638443063235970000" alt="SSD NVMe 1TB" />
+  <h3>SSD NVMe 1TB</h3>
+  <p>Precio: S/480</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 26 -->
+<div class="producto" data-name="Auriculares Bluetooth Sport" data-price="95">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLJ8SN-DyNpe9w9JlQr3dbFDV9t7RrFyOFFuqxF_uskG1ez9Csop2SN2APnt6Die2iekQ&usqp=CAU" alt="Auriculares Bluetooth Sport" />
+  <h3>Auriculares Bluetooth Sport</h3>
+  <p>Precio: S/95</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 27 -->
+<div class="producto" data-name="Hub USB 4 Puertos" data-price="55">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeI8n7gdB7s-cZJNxjuoBAld6iLHeYJey2bA&s" alt="Hub USB 4 Puertos" />
+  <h3>Hub USB 4 Puertos</h3>
+  <p>Precio: S/55</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 28 -->
+<div class="producto" data-name="Placa de Video GTX 1660" data-price="1200">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD9i9gWAux-L6Spso4LgTnnSYZTViiC9_rzw&s" alt="Placa de Video GTX 1660" />
+  <h3>Placa de Video GTX 1660</h3>
+  <p>Precio: S/1200</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 29 -->
+<div class="producto" data-name="Cable HDMI 2m" data-price="25">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV-ovWKM6DKY7yDqU4S9D1a1lBCRkvwzITZg&s" alt="Cable HDMI 2m" />
+  <h3>Cable HDMI 2m</h3>
+  <p>Precio: S/25</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+<!-- Producto 30 -->
+<div class="producto" data-name="Silla Gamer Ergonomica" data-price="700">
+  <img src="https://plazavea.vteximg.com.br/arquivos/ids/9759085-418-418/image-6d42cfc270e94c37baea11d54a7a0baa.jpg" alt="Silla Gamer Ergonomica" />
+  <h3>Silla Gamer Ergonomica</h3>
+  <p>Precio: S/700</p>
+  <input type="number" min="1" value="1" />
+  <button>Agregar → ✅</button>
+</div>
+
+    <!-- Producto 9 (nuevo) -->
+    <div class="producto" data-name="Disco Duro 1TB" data-price="280">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTexTHrjtZclQQbwcia5HNVtajZXKzgl9p_sg&s" alt="Disco Duro 1TB" />
+      <h3>Disco Duro 1TB</h3>
+      <p>Precio: S/280</p>
+      <input type="number" min="1" value="1" />
+      <button>Agregar → ✅</button>
+    </div>
   </div>
 
-  <!-- Producto: Memoria RAM -->
-
-  <div class="producto">
-     <img src="https://dojiw2m9tvv09.cloudfront.net/86841/product/image-removebg-preview-2023-10-14t133734-0349848.png" alt="Memoria RAM 8GB" class="producto-img">
-    <h3>Memoria RAM 8GB</h3>
-    <p>Precio: S/200</p>
-    <input type="number" id="cant-ram" min="1" value="1">
-    <button onclick="agregarAlCarrito('Memoria RAM 8GB', 200, document.getElementById('cant-ram').value)">Agregar → ✅</button>
-  </div>
-
-  <!-- Producto: Pantalla LED -->
-
-  <div class="producto">
-     <img src="https://images.samsung.com/is/image/samsung/p6pim/latin/lf24t350fhnxza/gallery/latin-t35f-422752-lf24t350fhnxza-546960054?$684_547_PNG$" alt="Pantalla LED 24" class="producto-img">
-    <h3>Pantalla LED 24</h3>
-    <p>Precio: S/450</p>
-    <input type="number" id="cant-pantalla" min="1" value="1">
-    <button onclick="agregarAlCarrito('Pantalla LED 24', 450, document.getElementById('cant-pantalla').value)">Agregar → ✅</button>
-  </div>
-
-  <!-- Producto: Audífonos Gamer -->
-
-  <div class="producto">
-     <img src="https://www.antryx.com/wp-content/uploads/2023/12/GH-Raider-Plus-01-300x300.png" alt="Audifonos Gamer" class="producto-img">
-    <h3>Audífonos Gamer</h3>
-    <p>Precio: S/120</p>
-    <input type="number" id="cant-audifonos" min="1" value="1">
-    <button onclick="agregarAlCarrito('Audífonos Gamer', 120, document.getElementById('cant-audifonos').value)">Agregar → ✅</button>
-  </div>
-
-  <!-- Producto: Mouse Gamer -->
-
-  <div class="producto">
-     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2JOKd5ztqkAysJjzPnvCzz9fVN3fpJ04J7EhaIXr4gVmzoDNK-wVbEJSfwXsSNhikdeM&usqp=CAU" alt="Mouse Gamer" class="producto-img">
-    <h3>Mouse Gamer</h3>
-    <p>Precio: S/70</p>
-    <input type="number" id="cant-mouse" min="1" value="1">
-    <button onclick="agregarAlCarrito('Mouse Gamer', 70, document.getElementById('cant-mouse').value)">Agregar → ✅</button>
-  </div>
-
-  <!-- Producto: Disco SSD -->
-
-  <div class="producto">
-     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5xyXsp1BqtnJV5IiBmfp9UBnCltmZJh2iYA&s" alt="Disco SSD 480GB" class="producto-img">
-    <h3>Disco SSD 480GB</h3>
-    <p>Precio: S/250</p>
-    <input type="number" id="cant-ssd" min="1" value="1">
-    <button onclick="agregarAlCarrito('Disco SSD 480GB', 250, document.getElementById('cant-ssd').value)">Agregar → ✅</button>
-  </div>
 
   <!-- Carrito -->
-
   <div id="carrito">
     <h2>Carrito de Compras → 🛒</h2>
     <ul id="lista-carrito"></ul>
-    <p><strong>Total: S/<span id="total">0</span></strong></p>
-    <button onclick="comprar()">Comprar</button>
+    <p><strong>Total: S/<span id="total">0.00</span></strong></p>
+    <button id="btn-comprar">Comprar con Yape</button>
   </div>
 
-  <!-- Script -->
+  <!-- Modal Yape -->
+  <div id="modalYape" class="modal" aria-modal="true" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <div class="modal-content">
+      <h3 id="modalTitle">Pago con Yape</h3>
+      <p id="modalDesc">Por favor realiza el pago al siguiente número:</p>
+      <p style="font-weight:bold; font-size:1.8em; color:#25d366;">+51 929 087 976</p>
+      <!-- QR Yape -->
+      <img src="https://gagamaru77.github.io/pagina07/personal.jpeg" alt="QR Pago Yape" />
+      <p>Después de realizar el pago, envíanos el comprobante para procesar tu pedido.</p>
+      <button onclick="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
 
 <script>
-  let total = 0;
   const listaCarrito = document.getElementById('lista-carrito');
   const totalSpan = document.getElementById('total');
+  const modalYape = document.getElementById('modalYape');
+  const btnComprar = document.getElementById('btn-comprar');
+  let total = 0;
+
+  // Agregar evento a todos los botones "Agregar" dentro del carrusel
+  document.querySelectorAll('.producto button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const producto = btn.parentElement;
+      const nombre = producto.getAttribute('data-name');
+      const precio = parseFloat(producto.getAttribute('data-price'));
+      const cantidadInput = producto.querySelector('input');
+      let cantidad = parseInt(cantidadInput.value);
+      if (isNaN(cantidad) || cantidad < 1) {
+        alert('Cantidad no válida');
+        return;
+      }
+      agregarAlCarrito(nombre, precio, cantidad);
+      cantidadInput.value = 1; // reset cantidad
+    });
+  });
 
   function agregarAlCarrito(nombre, precio, cantidad) {
-    cantidad = parseInt(cantidad);
-    if (isNaN(cantidad) || cantidad <= 0) {
-      alert("Cantidad no válida");
-      return;
-    }
-
+    // Crear item en lista
     const item = document.createElement('li');
-    item.textContent = `${cantidad} x ${nombre} - S/${precio * cantidad}`;
+    item.textContent = `${cantidad} x ${nombre} - S/${(precio * cantidad).toFixed(2)}`;
 
-    // Botón para eliminar producto
+    // Botón eliminar
     const botonEliminar = document.createElement('button');
-    botonEliminar.textContent = " ❌ ";
-    botonEliminar.style.marginLeft = '10px';
-    botonEliminar.style.backgroundColor = '#dc3545';
-    botonEliminar.style.color = 'white';
-    botonEliminar.style.border = 'none';
-    botonEliminar.style.padding = '5px 8px';
-    botonEliminar.style.borderRadius = '5px';
-    botonEliminar.style.cursor = 'pointer';
-    botonEliminar.onclick = function () {
+    botonEliminar.textContent = "❌";
+    botonEliminar.title = "Eliminar producto";
+    botonEliminar.onclick = () => {
       listaCarrito.removeChild(item);
       total -= precio * cantidad;
-      totalSpan.textContent = total;
+      if (total < 0) total = 0;
+      totalSpan.textContent = total.toFixed(2);
     };
 
     item.appendChild(botonEliminar);
     listaCarrito.appendChild(item);
 
     total += precio * cantidad;
-    totalSpan.textContent = total;
+    totalSpan.textContent = total.toFixed(2);
   }
 
-  function comprar() {
+  btnComprar.addEventListener('click', () => {
     if (total === 0) {
       alert('El carrito está vacío.');
       return;
     }
-
-    // Confirmación de compra
-    const confirmar = confirm('¿Deseas confirmar tu compra por S/' + total + '?');
-
+    const confirmar = confirm(`¿Confirmas tu compra por S/${total.toFixed(2)}?`);
     if (confirmar) {
-      alert('✅ Gracias por su compra. Total: S/' + total);
-      listaCarrito.innerHTML = '';
-      total = 0;
-      totalSpan.textContent = total;
-    } else {
-      alert('❌ Compra cancelada.');
+      modalYape.style.display = 'block';
+    }
+  });
+
+  function cerrarModal() {
+    modalYape.style.display = 'none';
+    listaCarrito.innerHTML = '';
+    total = 0;
+    totalSpan.textContent = total.toFixed(2);
+  }
+
+  // Cerrar modal si se hace click fuera
+  window.onclick = function(event) {
+    if(event.target == modalYape) {
+      cerrarModal();
     }
   }
 </script>
