@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel de Reservas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="icon" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png" />
+  <style>
+    #login {
+      max-width: 320px;
+      margin: 0 auto;
+    }
+    #contenido {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    body {
+      padding-bottom: 60px;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg bg-primary fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white" href="index.html">Net_Service</a>
+  </div>
+</nav>
+
+<div class="container py-5 mt-5">
+  <h2 class="text-center mb-4">📋 Lista de Reservas</h2>
+  <div id="login" class="text-center">
+    <input type="password" id="pass" placeholder="Contraseña de admin" class="form-control mb-3" />
+    <button class="btn btn-primary w-100" onclick="login()">Entrar</button>
+  </div>
+  <div id="contenido" style="display:none;">
+    <div class="table-responsive">
+      <table class="table table-bordered mt-3">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>DNI</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody id="tabla"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase v8 -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAbxk77pLZ-3Tagr7RUaDnTPnnZPC1BWtM",
+    authDomain: "reservas-cabinas.firebaseapp.com",
+    projectId: "reservas-cabinas",
+    storageBucket: "reservas-cabinas.appspot.com",
+    messagingSenderId: "1092073467342",
+    appId: "1:1092073467342:web:68fa885afe6b3663210f9f"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  const ADMIN_PASS = "Alondra157"; // Contraseña
+
+  function login() {
+    const inputPass = document.getElementById("pass").value;
+    if (inputPass === ADMIN_PASS) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("contenido").style.display = "block";
+      cargarReservas();
+    } else {
+      alert("Contraseña incorrecta, no tienes acceso a esta página");
+    }
+  }
+
+  async function cargarReservas() {
+    const tabla = document.getElementById("tabla");
+    tabla.innerHTML = "";
+    const snapshot = await db.collection("reservas").get();
+    snapshot.forEach(doc => {
+      const r = doc.data();
+      const fila = `<tr>
+        <td>${r.nombre}</td>
+        <td>${r.dni}</td>
+        <td>${r.inicio}</td>
+        <td>${r.fin}</td>
+        <td>${new Date(r.fecha).toLocaleString()}</td>
+      </tr>`;
+      tabla.innerHTML += fila;
+    });
+  }
+</script>
+
+</body>
+</html>
