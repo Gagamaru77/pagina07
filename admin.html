@@ -12,7 +12,7 @@
       margin: 0 auto;
     }
     #contenido {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
     }
     body {
@@ -44,6 +44,7 @@
             <th>Inicio</th>
             <th>Fin</th>
             <th>Fecha</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody id="tabla"></tbody>
@@ -88,15 +89,32 @@
     const snapshot = await db.collection("reservas").get();
     snapshot.forEach(doc => {
       const r = doc.data();
-      const fila = `<tr>
-        <td>${r.nombre}</td>
-        <td>${r.dni}</td>
-        <td>${r.inicio}</td>
-        <td>${r.fin}</td>
-        <td>${new Date(r.fecha).toLocaleString()}</td>
-      </tr>`;
+      const id = doc.id;
+      const fila = `
+        <tr>
+          <td>${r.nombre}</td>
+          <td>${r.dni}</td>
+          <td>${r.inicio}</td>
+          <td>${r.fin}</td>
+          <td>${new Date(r.fecha).toLocaleString()}</td>
+          <td><button class="btn btn-danger btn-sm" onclick="cancelarReserva('${id}')">Cancelar</button></td>
+        </tr>`;
       tabla.innerHTML += fila;
     });
+  }
+
+  async function cancelarReserva(id) {
+    const seguro = confirm("¿Seguro que quieres cancelar esta reserva?");
+    if (!seguro) return;
+
+    try {
+      await db.collection("reservas").doc(id).delete();
+      alert("Reserva cancelada correctamente.");
+      cargarReservas(); // Recargar lista actualizada
+    } catch (error) {
+      console.error("Error al cancelar la reserva:", error);
+      alert("Error al cancelar la reserva. Intenta de nuevo.");
+    }
   }
 </script>
 
