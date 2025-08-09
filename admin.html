@@ -16,6 +16,21 @@
       margin: 0 auto;
     }
     body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding-top: 56px; /* espacio para navbar fijo */
+      background-image: url('https://wallpapers.com/images/hd/bright-mountain-art-4k-pc-8dxv1c1kpj1bsvde.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+      padding-bottom: 120px; /* espacio para botones flotantes */
+    }
+    {
       padding-bottom: 60px;
     }
   </style>
@@ -87,16 +102,28 @@
     const tabla = document.getElementById("tabla");
     tabla.innerHTML = "";
     const snapshot = await db.collection("reservas").get();
+
     snapshot.forEach(doc => {
       const r = doc.data();
       const id = doc.id;
+
+      // Convertir fecha a formato bonito en español
+      let fechaFormateada = "";
+      if (r.fecha) {
+        fechaFormateada = new Date(r.fecha).toLocaleDateString("es-ES", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric"
+        });
+      }
+
       const fila = `
         <tr>
           <td>${r.nombre}</td>
           <td>${r.dni}</td>
           <td>${r.inicio}</td>
           <td>${r.fin}</td>
-          <td>${new Date(r.fecha).toLocaleString()}</td>
+          <td>${fechaFormateada}</td>
           <td><button class="btn btn-danger btn-sm" onclick="cancelarReserva('${id}')">Cancelar</button></td>
         </tr>`;
       tabla.innerHTML += fila;
@@ -110,7 +137,7 @@
     try {
       await db.collection("reservas").doc(id).delete();
       alert("Reserva cancelada correctamente.");
-      cargarReservas(); // Recargar lista actualizada
+      cargarReservas();
     } catch (error) {
       console.error("Error al cancelar la reserva:", error);
       alert("Error al cancelar la reserva. Intenta de nuevo.");
