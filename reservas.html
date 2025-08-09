@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>  
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -70,6 +70,11 @@
 
   document.getElementById("reservaForm").addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    // Confirmar antes de reservar
+    const seguro = confirm("¿Estás seguro que quieres hacer esta reserva?");
+    if (!seguro) return; // si no confirma, no continúa
+
     const nombre = document.getElementById("nombre").value.trim();
     const dni = document.getElementById("dni").value.trim();
     const inicio = document.getElementById("inicio").value;
