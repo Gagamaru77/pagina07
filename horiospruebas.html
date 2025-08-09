@@ -1,290 +1,160 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Horarios</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda - Login y Modo Oscuro</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
-      padding-top: 56px; /* espacio para navbar fijo */
-      background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1470&q=80');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      flex-direction: column;
-      padding-bottom: 120px; /* espacio para botones flotantes */
-    }
-
-    .card {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      padding: 30px 25px;
-      max-width: 400px;
-      width: 90%;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      margin: 20px auto;
-    }
-
-    .card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .card h2 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 20px;
-      font-size: 1.8rem;
-    }
-
-    .card ul {
-      list-style: none;
       padding: 0;
+      transition: background 0.3s, color 0.3s;
     }
-
-    .card li {
-      margin-bottom: 15px;
-      font-size: 16px;
-      color: #555;
-    }
-
-    .card li::before {
-      content: "🟢";
-      margin-right: 8px;
-    }
-
-    .card li:last-child::before {
-      content: "🔴";
-    }
-
-    /* Estilos para el input calendario */
-    .date-picker-container {
-      margin-top: 25px;
+    header {
+      background: var(--color-principal);
+      color: white;
+      padding: 10px;
       text-align: center;
     }
-
-    .date-picker-container label {
-      font-weight: 600;
-      color: #333;
-      display: block;
-      margin-bottom: 8px;
-      font-size: 1.2rem;
+    .container {
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
     }
-
-    .date-picker-container input[type="date"] {
-      width: 80%;
-      max-width: 250px;
-      padding: 8px 10px;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      transition: border-color 0.3s ease;
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: none;
+      border-radius: 5px;
     }
-
-    .date-picker-container input[type="date"]:focus {
-      outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-
-    .selected-date {
-      margin-top: 12px;
-      font-weight: 600;
-      color: #007bff;
-      font-size: 1.1rem;
-    }
-
-    .status-open {
-      color: green;
-      font-weight: bold;
-    }
-    .status-closed {
-      color: red;
-      font-weight: bold;
-    }
-
-    @media (max-width: 500px) {
-      .card {
-        padding: 20px 15px;
-      }
-
-      .card h2 {
-        font-size: 1.4rem;
-      }
-
-      .card li {
-        font-size: 14px;
-      }
-
-      .date-picker-container input[type="date"] {
-        width: 100%;
-      }
-    }
-
-    .social-buttons {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 1000;
-    }
-
-    .social-btn {
-      width: 55px;
-      height: 55px;
-      background-color: white;
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.3s;
+    button {
+      background: var(--color-principal);
+      color: white;
       cursor: pointer;
     }
-
-    .social-btn:hover {
-      transform: scale(1.1);
+    button:hover {
+      background: var(--color-hover);
     }
-
-    .social-btn img {
-      width: 30px;
-      height: 30px;
+    .toggle-theme {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: 2px solid white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
     }
-
-    .whatsapp { background-color: #25d366; }
-    .facebook { background-color: #3b5998; }
-    .instagram {
-      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    /* Modo claro */
+    :root {
+      --color-principal: #007bff;
+      --color-hover: #0056b3;
+      --fondo: #ffffff;
+      --texto: #000000;
     }
-    .tiktok { background-color: #000; }
+    /* Modo oscuro */
+    body.dark {
+      --color-principal: #222;
+      --color-hover: #444;
+      --fondo: #121212;
+      --texto: #ffffff;
+    }
+    body {
+      background: var(--fondo);
+      color: var(--texto);
+    }
+    @media (max-width: 600px) {
+      .container {
+        width: 95%;
+      }
+    }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Tienda Online</h1>
+    <button class="toggle-theme">🌙</button>
+  </header>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg bg-primary fixed-top">
-    <div class="container-fluid">
-      <a class="navbar-brand text-white" href="index.html">Net_Service</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Horarios
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="horiospruebas.html">Horarios de Atención</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <div class="container">
+    <h2>Registro</h2>
+    <input type="email" id="registerEmail" placeholder="Correo electrónico">
+    <input type="password" id="registerPassword" placeholder="Contraseña">
+    <button onclick="register()">Registrarse</button>
 
-  <!-- Tarjeta del Horario -->
-  <div class="card">
-    <h2>🕒 Horario de Atención</h2>
-    <ul>
-      <li><strong>Lunes a Viernes:</strong> 9:00 a.m. – 1:00 p.m. / 3:00 p.m. – 8:00 p.m.</li>
-      <li><strong>Sábados:</strong> 9:00 a.m. – 2:00 p.m.</li>
-      <li><strong>Domingos y feriados:</strong> Cerrado</li>
-    </ul>
-
-    <div class="date-picker-container">
-      <label for="fecha">Selecciona una fecha:</label>
-      <input type="date" id="fecha" name="fecha" />
-      <div class="selected-date" id="selectedDateText"></div>
-      <div class="selected-status" id="selectedStatusText"></div>
-    </div>
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Correo electrónico">
+    <input type="password" id="loginPassword" placeholder="Contraseña">
+    <button onclick="login()">Iniciar Sesión</button>
+    <button onclick="logout()">Cerrar Sesión</button>
   </div>
 
-  <!-- Redes sociales flotantes -->
-  <div class="social-buttons">
-    <a href="https://wa.me/51929087976?text=Hola%20👋,%20quisiera%20consultar%20sobre%20los%20horarios%20de%20atención%20📅." 
-       target="_blank" class="social-btn whatsapp" title="WhatsApp" rel="noopener noreferrer">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
-    </a>
-    <a href="https://facebook.com/RichardParker" target="_blank" class="social-btn facebook" title="Facebook" rel="noopener noreferrer">
-      <img src="https://z-m-static.xx.fbcdn.net/rsrc.php/v4/yD/r/5D8s-GsHJlJ.png" alt="Facebook" />
-    </a>
-    <a href="https://instagram.com/mercadolibre.pe" target="_blank" class="social-btn instagram" title="Instagram" rel="noopener noreferrer">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
-    </a>
-    <a href="https://www.tiktok.com/@rikishy_sin_igual" target="_blank" class="social-btn tiktok" title="TikTok" rel="noopener noreferrer">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5UuGp08RPQVsvpH43u3MJ6M-LtRCTlP-DgA&s" alt="TikTok" />
-    </a>
-  </div>
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } 
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-<script>
-  const fechaInput = document.getElementById('fecha');
-  const selectedDateText = document.getElementById('selectedDateText');
-  const selectedStatusText = document.getElementById('selectedStatusText');
+    // Tu configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBWNjEu5aCO-MS3pZP8Q5T1uQmKdT9MH6U",
+      authDomain: "iniciar-session.firebaseapp.com",
+      projectId: "iniciar-session",
+      storageBucket: "iniciar-session.firebasestorage.app",
+      messagingSenderId: "613363526348",
+      appId: "1:613363526348:web:7a78ecf8d1f266dae07069",
+      measurementId: "G-MR79CT21DQ"
+    };
 
-  // Lista de feriados (formato 'MM-DD'), agrega o quita según necesites
-  const feriados = [
-    '01-01', // Año nuevo
-    '05-01', // Día del trabajo
-    '07-28', // Independencia Perú
-    '07-29', // Día siguiente de Independencia
-    '12-25'  // Navidad
-  ];
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-  fechaInput.addEventListener('change', () => {
-    const fechaSeleccionada = fechaInput.value; // yyyy-mm-dd
-    if (!fechaSeleccionada) {
-      selectedDateText.textContent = '';
-      selectedStatusText.textContent = '';
-      return;
+    // Función para registrarse
+    window.register = function() {
+      const email = document.getElementById("registerEmail").value;
+      const password = document.getElementById("registerPassword").value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => alert("✅ Usuario registrado"))
+        .catch(err => alert("❌ " + err.message));
     }
 
-    const partes = fechaSeleccionada.split('-');
-    const fecha = new Date(partes[0], partes[1] - 1, partes[2]);
 
-    // Formatear fecha para mostrar (Ej: 8 de agosto de 2025)
-    const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
-    const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones);
-    selectedDateText.textContent = `Has seleccionado: ${fechaFormateada}`;
+// Función para iniciar sesión
+window.login = function() {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      // ✅ Sesión iniciada correctamente, redirigimos
+      window.location.href = "index.html"; // Cambia por la ruta real de tu página principal
+    })
+    .catch(err => alert("❌ " + err.message));
+}
 
-    // Obtener día de la semana (0=domingo, 1=lunes, ..., 6=sábado)
-    const diaSemana = fecha.getDay();
-
-    // Formatear MM-DD para comparar con feriados
-    const mmdd = partes[1].padStart(2, '0') + '-' + partes[2].padStart(2, '0');
-
-    // Verificar si es feriado
-    const esFeriado = feriados.includes(mmdd);
-
-    // Decidir estado
-    if (diaSemana === 0 || esFeriado) {
-      // Domingo o feriado
-      selectedStatusText.textContent = '🚫 Cerrado (Domingos y feriados)';
-      selectedStatusText.className = 'selected-status status-closed';
-    } else if (diaSemana >= 1 && diaSemana <= 5) {
-      // Lunes a viernes
-      selectedStatusText.textContent = '✅ Abierto: 9:00 a.m. – 1:00 p.m. / 3:00 p.m. – 8:00 p.m.';
-      selectedStatusText.className = 'selected-status status-open';
-    } else if (diaSemana === 6) {
-      // Sábado
-      selectedStatusText.textContent = '✅ Abierto: 9:00 a.m. – 2:00 p.m.';
-      selectedStatusText.className = 'selected-status status-open';
+    // Función para cerrar sesión
+    window.logout = function() {
+      signOut(auth).then(() => alert("👋 Sesión cerrada"));
     }
-  });
-</script>
+  </script>
+
+  <!-- Script para modo oscuro/claro -->
+  <script>
+    const toggleBtn = document.querySelector(".toggle-theme");
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      toggleBtn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+      localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+    });
+
+    // Cargar el tema guardado
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark");
+      toggleBtn.textContent = "☀️";
+    }
+  </script>
 </body>
 </html>
