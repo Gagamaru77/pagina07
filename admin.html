@@ -7,19 +7,13 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="icon" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png" />
   <style>
-    #login {
-      max-width: 320px;
-      margin: 0 auto;
-    }
-    #contenido {
-      max-width: 900px;
-      margin: 0 auto;
-    }
+    #login { max-width: 320px; margin: 0 auto; }
+    #contenido { max-width: 900px; margin: 0 auto; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      padding-top: 56px; /* espacio para navbar fijo */
-      background-image: url('https://wallpapers.com/images/hd/bright-mountain-art-4k-pc-8dxv1c1kpj1bsvde.jpg');
+      padding-top: 56px;
+      background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1470&q=80');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -28,10 +22,7 @@
       justify-content: center;
       align-items: flex-start;
       flex-direction: column;
-      padding-bottom: 120px; /* espacio para botones flotantes */
-    }
-    {
-      padding-bottom: 60px;
+      padding-bottom: 120px;
     }
   </style>
 </head>
@@ -56,6 +47,7 @@
           <tr>
             <th>Nombre</th>
             <th>DNI</th>
+            <th>WhatsApp</th>
             <th>Inicio</th>
             <th>Fin</th>
             <th>Fecha</th>
@@ -71,8 +63,8 @@
 <!-- Firebase v8 -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
 <script>
+  // Configuración Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyAbxk77pLZ-3Tagr7RUaDnTPnnZPC1BWtM",
     authDomain: "reservas-cabinas.firebaseapp.com",
@@ -81,11 +73,10 @@
     messagingSenderId: "1092073467342",
     appId: "1:1092073467342:web:68fa885afe6b3663210f9f"
   };
-
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  const ADMIN_PASS = "Alondra157"; // Contraseña
+  const ADMIN_PASS = "Alondra157";
 
   function login() {
     const inputPass = document.getElementById("pass").value;
@@ -107,7 +98,6 @@
       const r = doc.data();
       const id = doc.id;
 
-      // Convertir fecha a formato bonito en español
       let fechaFormateada = "";
       if (r.fecha) {
         fechaFormateada = new Date(r.fecha).toLocaleDateString("es-ES", {
@@ -121,27 +111,32 @@
         <tr>
           <td>${r.nombre}</td>
           <td>${r.dni}</td>
+          <td>${r.whatsapp || ''}</td>
           <td>${r.inicio}</td>
           <td>${r.fin}</td>
           <td>${fechaFormateada}</td>
-          <td><button class="btn btn-danger btn-sm" onclick="cancelarReserva('${id}')">Cancelar</button></td>
+          <td>
+            <button class="btn btn-success btn-sm" onclick="confirmarReserva('${id}', '${r.whatsapp}', '${r.nombre}', '${fechaFormateada}', '${r.inicio}', '${r.fin}')">Confirmar</button>
+            <button class="btn btn-danger btn-sm" onclick="cancelarReserva('${id}', '${r.whatsapp}', '${r.nombre}', '${fechaFormateada}', '${r.inicio}', '${r.fin}')">Cancelar</button>
+          </td>
         </tr>`;
       tabla.innerHTML += fila;
     });
   }
 
-  async function cancelarReserva(id) {
+  function confirmarReserva(id, numero, nombre, fecha, inicio, fin) {
+    const mensaje = `Hola ${nombre}, tu reserva para el ${fecha} de ${inicio} a ${fin} ha sido confirmada.`;
+    window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, "_blank");
+  }
+
+  async function cancelarReserva(id, numero, nombre, fecha, inicio, fin) {
     const seguro = confirm("¿Seguro que quieres cancelar esta reserva?");
     if (!seguro) return;
 
-    try {
-      await db.collection("reservas").doc(id).delete();
-      alert("Reserva cancelada correctamente.");
-      cargarReservas();
-    } catch (error) {
-      console.error("Error al cancelar la reserva:", error);
-      alert("Error al cancelar la reserva. Intenta de nuevo.");
-    }
+    await db.collection("reservas").doc(id).delete();
+    const mensaje = `Hola ${nombre}, lamentamos informarte que tu reserva para el ${fecha} de ${inicio} a ${fin} ha sido cancelada.`;
+    window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, "_blank");
+    cargarReservas();
   }
 </script>
 
