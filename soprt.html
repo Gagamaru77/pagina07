@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Soporte · Normas y Reglas — NetService</title>
+  <meta name="description" content="Página de soporte con normas, reglas y procedimientos de NetService." />
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#06b6d4; --accent-2:#7c3aed; --glass: rgba(255,255,255,0.03);
+      --radius:12px; --maxw:980px;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg), #041025);color:#e6eef6}
+    .container{max-width:var(--maxw);margin:36px auto;padding:28px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:18px;box-shadow:0 8px 30px rgba(2,6,23,0.7)}
+    header{display:flex;gap:18px;align-items:center}
+    .logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-weight:700;color:#021022}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:4px 0 0;color:var(--muted)}
+    nav{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
+    .chip{background:var(--glass);padding:8px 12px;border-radius:999px;font-size:13px;color:var(--muted);cursor:pointer}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:22px;margin-top:20px}
+    main{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));padding:18px;border-radius:12px}
+    aside{position:sticky;top:36px;padding:18px;background:rgba(255,255,255,0.015);border-radius:12px;height:max-content}
+    section{margin-bottom:16px}
+    h2{margin:0 0 8px 0;font-size:16px}
+    ul.rules{padding-left:18px;margin:0;color:var(--muted)}
+    ul.rules li{margin:8px 0;line-height:1.4}
+    .badge{display:inline-block;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.03);font-size:13px}
+    .contact{margin-top:12px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021022;font-weight:600;text-decoration:none}
+    footer{margin-top:18px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.02);color:var(--muted);font-size:13px}
+    pre{background:rgba(0,0,0,0.2);padding:10px;border-radius:8px;overflow:auto}
+    .muted{color:var(--muted);font-size:13px}
+    .print-hidden{display:inline-block}
+    @media (max-width:900px){.grid{grid-template-columns:1fr;}.print-hidden{display:none}}
+    @media print{body{background:white;color:black} .container{box-shadow:none;border-radius:0;background:white} .print-hidden{display:none} nav, .chip, .btn{display:none} }
+  </style>
+  <link rel="icon" type="text/css" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png" />
+</head>
+<body>
+  <div class="container" role="main">
+    <header>
+      <div class="logo" aria-hidden="true">NS</div>
+      <div>
+        <h1>Soporte — Normas y Reglas</h1>
+        <p class="lead">Guía oficial de conducta, uso de recursos y procedimientos de soporte en NetService, empresa dedicada al alquiler de cabinas de internet y venta de componentes.</p>
+        <nav class="print-hidden" aria-label="Navegación rápida">
+          <div class="chip">Inicio</div>
+          <div class="chip">Normas</div>
+          <div class="chip">Seguridad</div>
+          <div class="chip">Contacto</div>
+        </nav>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main>
+        <section id="introduccion">
+          <h2>1. Introducción</h2>
+          <p class="muted">Este documento establece las normas, responsabilidades y procedimientos que aplican dentro de NetService. Todos los trabajadores, pasantes y colaboradores deben conocer y seguir estas reglas para garantizar seguridad, profesionalismo y un ambiente respetuoso.</p>
+        </section>
+
+        <section id="politica-general">
+          <h2>2. Política general</h2>
+          <ul class="rules">
+            <li><strong>Respeto:</strong> Tratar a compañeros, clientes y proveedores con respeto en todo momento.</li>
+            <li><strong>Puntualidad y asistencia:</strong> Llegar puntualmente a jornadas, avisar ausencias con la antelación establecida.</li>
+            <li><strong>Confidencialidad:</strong> Proteger información sensible; no compartir credenciales ni datos de clientes.</li>
+            <li><strong>Uso responsable de recursos:</strong> Los equipos, cuentas y servicios proporcionados son para fines laborales.</li>
+          </ul>
+        </section>
+
+        <section id="normas-comportamiento">
+          <h2>3. Normas de comportamiento</h2>
+          <ul class="rules">
+            <li>No se permite acoso, discriminación, lenguaje ofensivo o agresiones físicas.</li>
+            <li>Prohibido consumir sustancias ilegales durante el horario laboral.</li>
+            <li>Prohibido el uso de dispositivos personales para fines que comprometan la seguridad de la empresa.</li>
+            <li>Reportar conflictos o conductas inapropiadas al área de soporte o administración.</li>
+          </ul>
+        </section>
+
+        <section id="seguridad-tecnica">
+          <h2>4. Seguridad informática</h2>
+          <ul class="rules">
+            <li>Mantener contraseñas seguras y no compartirlas. Usar autenticación en dos pasos cuando esté disponible.</li>
+            <li>Instalar actualizaciones aprobadas por el área técnica; no instalar software no autorizado.</li>
+            <li>Informar inmediatamente de incidentes de seguridad (phishing, dispositivos perdidos, accesos sospechosos).</li>
+            <li>Hacer copias de seguridad según la política establecida y validar restauraciones periódicamente.</li>
+          </ul>
+        </section>
+
+        <section id="uso-de-recursos">
+          <h2>5. Uso de recursos y acceso</h2>
+          <ul class="rules">
+            <li>Los equipos de NetService son para trabajo; el uso personal debe ser mínimo y responsable.</li>
+            <li>El acceso a sistemas será otorgado según rol y revocado cuando cambie la relación laboral.</li>
+            <li>Cualquier uso que genere costos (servicios, licencias, impresión) debe tener autorización previa.</li>
+          </ul>
+        </section>
+
+        <section id="procedimientos-soporte">
+          <h2>6. Procedimientos de soporte</h2>
+          <ol class="rules">
+            <li>Registrar la incidencia en el sistema de ticket con descripción, prioridad y contacto.</li>
+            <li>Asignación: el encargado de soporte asignará un responsable y tiempo estimado de respuesta.</li>
+            <li>Escalamiento: si no se resuelve en el tiempo definido, escalar a niveles superiores según el flujo.</li>
+            <li>Cierre: documentar la solución y marcar el ticket como cerrado; el usuario debe validar la solución.</li>
+          </ol>
+        </section>
+
+        <section id="sanciones">
+          <h2>7. Sanciones y medidas disciplinarias</h2>
+          <p class="muted">Las violaciones a estas normas pueden conllevar medidas que van desde advertencias hasta la terminación de la relación laboral, según la gravedad y la legislación vigente.</p>
+          <ul class="rules">
+            <li>Falta leve: amonestación verbal o escrita.</li>
+            <li>Falta grave: suspensión, pérdida de privilegios o rescisión del contrato.</li>
+          </ul>
+        </section>
+
+        <section id="faq">
+          <h2>8. Preguntas frecuentes</h2>
+          <ul class="rules">
+            <li><strong>¿Cómo contacto soporte?</strong> Usa el formulario o envía un ticket al correo soporte@netservice.com.</li>
+            <li><strong>¿Cuál es el horario de atención?</strong> Lunes a sábado de 09:00 a 20:00 (hora local).</li>
+            <li><strong>¿Dónde reporto un incidente de seguridad?</strong> Enviar a seguridad@netservice.com con asunto "Incidente" y detalles.</li>
+          </ul>
+        </section>
+
+        <footer>
+          <p class="muted">Última actualización: <strong>15/09/2025</strong>. Documento controlado — cualquier modificación deberá registrarse en el historial.</p>
+        </footer>
+      </main>
+
+      <aside aria-label="Información de contacto y recursos">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div style="width:48px;height:48px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#021022;font-weight:700">NS</div>
+          <div>
+            <div class="badge">Soporte Técnico</div>
+            <div class="muted" style="margin-top:6px">Tel: +51 999 999 999<br>Correo: soporte@netservice.com</div>
+          </div>
+        </div>
+
+        <div class="contact">
+          <h3 style="margin:0 0 8px 0">Acciones rápidas</h3>
+          <a href="mailto:soporte@netservice.com" class="btn" role="button">Enviar ticket</a>
+        </div>
+
+        <div style="margin-top:12px">
+          <h3 style="margin:0 0 8px 0">Documentos</h3>
+          <ul class="rules">
+            <li>Política de seguridad (PDF)</li>
+            <li>Manual de personal (PDF)</li>
+            <li>Registro de accesos</li>
+          </ul>
+        </div>
+
+        <div style="margin-top:12px">
+          <h3 style="margin:0 0 8px 0">Links útiles</h3>
+          <ul class="rules">
+            <li><a href="#seguridad-tecnica" style="color:var(--accent);text-decoration:none">Reporte de incidentes</a></li>
+            <li><a href="#procedimientos-soporte" style="color:var(--accent);text-decoration:none">Flujo de soporte</a></li>
+            <li><a href="#faq" style="color:var(--accent);text-decoration:none">Preguntas frecuentes</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
