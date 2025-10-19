@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>   
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -57,7 +57,6 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
-  // Configuración Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyAbxk77pLZ-3Tagr7RUaDnTPnnZPC1BWtM",
     authDomain: "reservas-cabinas.firebaseapp.com",
@@ -70,7 +69,6 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  // Horario establecido
   const horario = {
     lunesViernes: [
       { inicio: "09:00", fin: "13:00" },
@@ -95,27 +93,32 @@
 
     const nombre = document.getElementById("nombre").value.trim();
     const dni = document.getElementById("dni").value.trim();
-    const fechaSeleccionada = new Date(document.getElementById("fecha").value);
+    const fechaInput = document.getElementById("fecha").value;
+
+    // ✅ Crear fecha local correctamente
+    const partes = fechaInput.split("-");
+    const fechaSeleccionada = new Date(partes[0], partes[1] - 1, partes[2]);
+
     const inicio = document.getElementById("inicio").value;
     const fin = document.getElementById("fin").value;
 
     const dia = fechaSeleccionada.getDay(); // 0=Domingo ... 6=Sábado
+
+    // Verificar domingos y feriados
+    const feriados = ["2025-01-01", "2025-05-01", "2025-07-28", "2025-12-25"];
+    const fechaISO = `${partes[0]}-${partes[1]}-${partes[2]}`;
+    if (dia === 0 || feriados.includes(fechaISO)) {
+      document.getElementById("resultado").textContent =
+        "❌ No se atiende domingos ni feriados.";
+      document.getElementById("resultado").className = "mt-3 text-center fw-bold text-danger";
+      return;
+    }
 
     // Verificar horario
     if (!estaDentroDelHorario(dia, inicio, fin)) {
       document.getElementById("resultado").textContent =
         "⚠️ No se puede reservar fuera del horario de atención (Lun-Vie 9–13 / 15–20, Sáb 9–14).";
       document.getElementById("resultado").className = "mt-3 text-center fw-bold text-warning";
-      return;
-    }
-
-    // Verificar domingos y feriados (ejemplo de feriados fijos)
-    const feriados = ["2025-01-01", "2025-05-01", "2025-07-28", "2025-12-25"];
-    const fechaISO = fechaSeleccionada.toISOString().split("T")[0];
-    if (dia === 0 || feriados.includes(fechaISO)) {
-      document.getElementById("resultado").textContent =
-        "❌ No se atiende domingos ni feriados.";
-      document.getElementById("resultado").className = "mt-3 text-center fw-bold text-danger";
       return;
     }
 
@@ -131,7 +134,7 @@
         fin,
         timestamp: new Date().toISOString()
       });
-      document.getElementById("resultado").textContent = "✅ Reserva guardada con éxito.";
+      document.getElementById("resultado").textContent = "✅ Reserva guardada con éxito 🕒💚";
       document.getElementById("resultado").className = "mt-3 text-center fw-bold text-success";
       e.target.reset();
     } catch (error) {
