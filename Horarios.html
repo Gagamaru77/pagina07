@@ -125,18 +125,13 @@ fechaInput.min = `${yyyy}-${mm}-${dd}`;
 fechaInput.addEventListener('change', () => {
   const fechaSeleccionada = fechaInput.value;
   if (!fechaSeleccionada) { selectedDateText.textContent=''; selectedStatusText.textContent=''; return; }
-  
-  // Crear fecha local sin desfase UTC
   const partes = fechaSeleccionada.split('-');
-  const fecha = new Date(partes[0], partes[1]-1, partes[2]);
-  
+  const fecha = new Date(partes[0], partes[1]-1, partes[2]); // fecha local
   const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   selectedDateText.textContent = `Has seleccionado: ${fecha.toLocaleDateString('es-ES', opciones)}`;
-  
   const diaSemana = fecha.getDay();
   const mmdd = partes[1].padStart(2,'0') + '-' + partes[2].padStart(2,'0');
   const esFeriado = feriados.includes(mmdd);
-  
   if (diaSemana === 0 || esFeriado) {
     selectedStatusText.textContent = '🚫 Cerrado (Domingos y feriados)';
     selectedStatusText.className = 'status-closed';
@@ -167,26 +162,23 @@ const db = firebase.firestore();
 
 document.getElementById("reservaForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  const hoy = new Date();
+  const yyyy = hoy.getFullYear();
+  const partes = document.getElementById("fechaReserva").value.split('-');
+  const fecha = new Date(partes[0], partes[1]-1, partes[2]);
+  const fechaStr = `${partes[0]}-${partes[1]}-${partes[2]}`;
+
   const nombre = document.getElementById("nombre").value.trim();
   const dni = document.getElementById("dni").value.trim();
   const whatsapp = document.getElementById("whatsapp").value.trim();
-  const fechaStr = document.getElementById("fechaReserva").value;
-  const partes = fechaStr.split('-');
-  const fecha = new Date(partes[0], partes[1]-1, partes[2]);
   const inicio = document.getElementById("inicio").value;
   const fin = document.getElementById("fin").value;
   const diaSemana = fecha.getDay();
 
-  if (!fechaStr) return alert("📅 Debes seleccionar una fecha válida.");
-
-  // No permitir fechas pasadas
-  const hoySinHora = new Date(yyyy, hoy.getMonth(), hoy.getDate());
-  if (fecha < hoySinHora) return alert("🚫 No puedes reservar en fechas pasadas.");
-
-  // No permitir domingos
+  if (fecha < new Date(yyyy, hoy.getMonth(), hoy.getDate())) return alert("🚫 No puedes reservar en fechas pasadas.");
   if (diaSemana === 0) return alert("🚫 No se aceptan reservas los domingos.");
 
-  // Horarios válidos
   const inicioMin = parseInt(inicio.split(":")[0])*60 + parseInt(inicio.split(":")[1]);
   const finMin = parseInt(fin.split(":")[0])*60 + parseInt(fin.split(":")[1]);
   let valido = false;
@@ -197,7 +189,7 @@ document.getElementById("reservaForm").addEventListener("submit", async (e) => {
     if (inicioMin >= 540 && finMin <= 840) valido = true;
   }
 
-  if (!valido) return alert("⏰ El horario no está dentro del horario de atención permitido.");
+  if (!valido) return alert("⏰ El horario no está dentro del horario permitido.");
 
   try {
     await db.collection("reservas").add({ nombre, dni, whatsapp, fecha: fechaStr, inicio, fin });
