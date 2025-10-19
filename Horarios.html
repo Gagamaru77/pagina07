@@ -115,16 +115,28 @@ const selectedDateText = document.getElementById('selectedDateText');
 const selectedStatusText = document.getElementById('selectedStatusText');
 const feriados = ['01-01','05-01','07-28','07-29','12-25'];
 
+// Bloquear fechas pasadas
+const hoy = new Date();
+const yyyy = hoy.getFullYear();
+const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+const dd = String(hoy.getDate()).padStart(2, '0');
+fechaInput.min = `${yyyy}-${mm}-${dd}`;
+
 fechaInput.addEventListener('change', () => {
   const fechaSeleccionada = fechaInput.value;
   if (!fechaSeleccionada) { selectedDateText.textContent=''; selectedStatusText.textContent=''; return; }
+  
+  // Crear fecha local sin desfase UTC
   const partes = fechaSeleccionada.split('-');
   const fecha = new Date(partes[0], partes[1]-1, partes[2]);
-  const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+  
+  const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   selectedDateText.textContent = `Has seleccionado: ${fecha.toLocaleDateString('es-ES', opciones)}`;
+  
   const diaSemana = fecha.getDay();
   const mmdd = partes[1].padStart(2,'0') + '-' + partes[2].padStart(2,'0');
   const esFeriado = feriados.includes(mmdd);
+  
   if (diaSemana === 0 || esFeriado) {
     selectedStatusText.textContent = '🚫 Cerrado (Domingos y feriados)';
     selectedStatusText.className = 'status-closed';
@@ -158,17 +170,23 @@ document.getElementById("reservaForm").addEventListener("submit", async (e) => {
   const nombre = document.getElementById("nombre").value.trim();
   const dni = document.getElementById("dni").value.trim();
   const whatsapp = document.getElementById("whatsapp").value.trim();
-  const fecha = document.getElementById("fechaReserva").value;
+  const fechaStr = document.getElementById("fechaReserva").value;
+  const partes = fechaStr.split('-');
+  const fecha = new Date(partes[0], partes[1]-1, partes[2]);
   const inicio = document.getElementById("inicio").value;
   const fin = document.getElementById("fin").value;
-  const fechaObj = new Date(fecha);
-  const diaSemana = fechaObj.getDay();
+  const diaSemana = fecha.getDay();
 
-  if (diaSemana === 0) {
-    alert("🚫 No se aceptan reservas los domingos.");
-    return;
-  }
+  if (!fechaStr) return alert("📅 Debes seleccionar una fecha válida.");
 
+  // No permitir fechas pasadas
+  const hoySinHora = new Date(yyyy, hoy.getMonth(), hoy.getDate());
+  if (fecha < hoySinHora) return alert("🚫 No puedes reservar en fechas pasadas.");
+
+  // No permitir domingos
+  if (diaSemana === 0) return alert("🚫 No se aceptan reservas los domingos.");
+
+  // Horarios válidos
   const inicioMin = parseInt(inicio.split(":")[0])*60 + parseInt(inicio.split(":")[1]);
   const finMin = parseInt(fin.split(":")[0])*60 + parseInt(fin.split(":")[1]);
   let valido = false;
@@ -179,13 +197,10 @@ document.getElementById("reservaForm").addEventListener("submit", async (e) => {
     if (inicioMin >= 540 && finMin <= 840) valido = true;
   }
 
-  if (!valido) {
-    alert("⏰ El horario no está dentro del horario de atención permitido.");
-    return;
-  }
+  if (!valido) return alert("⏰ El horario no está dentro del horario de atención permitido.");
 
   try {
-    await db.collection("reservas").add({ nombre, dni, whatsapp, fecha, inicio, fin });
+    await db.collection("reservas").add({ nombre, dni, whatsapp, fecha: fechaStr, inicio, fin });
     document.getElementById("resultado").textContent = "✅ Reserva guardada con éxito.";
     document.getElementById("resultado").className = "mt-3 text-center fw-bold text-success";
     e.target.reset();
