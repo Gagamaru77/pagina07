@@ -65,9 +65,11 @@
 
 <!-- Firebase SDK -->
 <script type="module">
+  // ✅ Importar Firebase (v10)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
   import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
+  // 🔥 Tu configuración Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyB8o6oeciBs-qI61GzKxS1FTXQR8KqFf04",
     authDomain: "cabinas-e8b5d.firebaseapp.com",
@@ -77,31 +79,47 @@
     appId: "1:669006797267:web:ee7f4a956082ea82f33726"
   };
 
+  // Inicializar Firebase y Firestore
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
+  // Capturar el formulario
   const form = document.getElementById("reservaForm");
   const resultado = document.getElementById("resultado");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const datos = {
-      nombre: form.nombre.value.trim(),
-      dni: form.dni.value.trim(),
-      whatsapp: form.whatsapp.value.trim(),
-      fecha: form.fechaReserva.value,
-      inicio: form.inicio.value,
-      fin: form.fin.value,
-      creado: serverTimestamp()
-    };
+
+    // 🔹 Capturar los valores correctamente
+    const nombre = document.getElementById("nombre").value.trim();
+    const dni = document.getElementById("dni").value.trim();
+    const whatsapp = document.getElementById("whatsapp").value.trim();
+    const fecha = document.getElementById("fechaReserva").value;
+    const inicio = document.getElementById("inicio").value;
+    const fin = document.getElementById("fin").value;
+
+    if (!nombre || !dni || !whatsapp || !fecha || !inicio || !fin) {
+      resultado.textContent = "⚠️ Por favor, completa todos los campos.";
+      resultado.className = "text-warning fw-bold";
+      return;
+    }
 
     try {
-      await addDoc(collection(db, "reservas"), datos);
+      await addDoc(collection(db, "reservas"), {
+        nombre,
+        dni,
+        whatsapp,
+        fecha,
+        inicio,
+        fin,
+        creado: serverTimestamp()
+      });
+
       resultado.textContent = "✅ Reserva guardada correctamente.";
       resultado.className = "text-success fw-bold";
       form.reset();
     } catch (err) {
-      console.error(err);
+      console.error("Error al guardar:", err);
       resultado.textContent = "❌ Error al guardar la reserva.";
       resultado.className = "text-danger fw-bold";
     }
