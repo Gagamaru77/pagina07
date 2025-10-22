@@ -4,70 +4,106 @@
   <meta charset="UTF-8" />
   <title>Reservas de Cabinas - Net_Service</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-top:56px;
-      background:#f5f7fb; }
-    .card { margin:20px auto; max-width:600px; border-radius:12px; padding:20px; }
-    #log { white-space:pre-wrap; font-family:monospace; max-height:120px; overflow:auto; background:#111; color:#0f0; padding:8px; border-radius:6px; }
-    table small { color:#666; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-top: 56px;
+      background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    .card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 30px 25px;
+      margin: 20px auto;
+    }
+    .status-open { color: green; font-weight: bold; }
+    .status-closed { color: red; font-weight: bold; }
   </style>
 </head>
 <body>
 
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg bg-primary fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand text-white" href="index.html">Net_Service</a>
+    <a class="navbar-brand text-white" href="#">Net_Service</a>
   </div>
 </nav>
 
-<div class="container">
-  <div class="card">
-    <h3 class="mb-3">📅 Reservar Cabina</h3>
-    <form id="reservaForm">
-      <div class="mb-2"><input class="form-control" id="nombre" placeholder="Nombre completo" required></div>
-      <div class="mb-2"><input class="form-control" id="dni" placeholder="DNI (8 dígitos)" pattern="\d{8}" required></div>
-      <div class="mb-2"><input class="form-control" id="whatsapp" placeholder="WhatsApp (ej. 51999888777)" required></div>
-      <div class="mb-2"><input class="form-control" id="fechaReserva" type="date" required></div>
-      <div class="mb-2"><input class="form-control" id="inicio" type="time" required></div>
-      <div class="mb-2"><input class="form-control" id="fin" type="time" required></div>
-      <button class="btn btn-success w-100" type="submit">Reservar</button>
-    </form>
+<!-- Contenido -->
+<div class="container mt-4">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="horarios-tab" data-bs-toggle="tab" data-bs-target="#horarios" type="button" role="tab">Horarios</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="reservas-tab" data-bs-toggle="tab" data-bs-target="#reservas" type="button" role="tab">Reservar</button>
+    </li>
+  </ul>
 
-    <div class="mt-3">
-      <div id="resultado" class="fw-bold"></div>
-      <div class="mt-2">
-        <small>Logs (útiles para diagnóstico):</small>
-        <div id="log"></div>
+  <div class="tab-content p-3">
+    <!-- Horarios -->
+    <div class="tab-pane fade show active" id="horarios">
+      <div class="card" style="max-width:500px;">
+        <h2 class="text-center">🕒 Horario de Atención</h2>
+        <ul>
+          <li><strong>Lunes a Viernes:</strong> 9:00 a.m. – 1:00 p.m. / 3:00 p.m. – 8:00 p.m.</li>
+          <li><strong>Sábados:</strong> 9:00 a.m. – 2:00 p.m.</li>
+          <li><strong>Domingos y feriados:</strong> Cerrado</li>
+        </ul>
       </div>
     </div>
-  </div>
 
-  <div class="card">
-    <h4>📋 Reservas guardadas</h4>
-    <div class="table-responsive">
-      <table class="table table-sm table-bordered">
-        <thead class="table-light"><tr><th>Nombre</th><th>DNI</th><th>WhatsApp</th><th>Fecha</th><th>Inicio</th><th>Fin</th></tr></thead>
-        <tbody id="tablaReservas"><tr><td colspan="6" class="text-center">Cargando...</td></tr></tbody>
-      </table>
+    <!-- Reservas -->
+    <div class="tab-pane fade" id="reservas">
+      <div class="container py-3" style="max-width:500px;">
+        <h2 class="text-center mb-4">📅 Reservar Cabina</h2>
+        <form id="reservaForm" class="card p-4 shadow">
+          <div class="mb-3">
+            <label class="form-label">Nombre completo</label>
+            <input type="text" id="nombre" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">DNI</label>
+            <input type="text" id="dni" class="form-control" maxlength="8" pattern="\d{8}" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Número de WhatsApp</label>
+            <input type="tel" id="whatsapp" class="form-control" pattern="\d{9,15}" placeholder="Ej: 999888777" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Fecha</label>
+            <input type="date" id="fechaReserva" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Hora de Inicio</label>
+            <input type="time" id="inicio" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Hora de Fin</label>
+            <input type="time" id="fin" class="form-control" required />
+          </div>
+          <button type="submit" class="btn btn-success w-100">Reservar</button>
+          <div id="resultado" class="mt-3 text-center fw-bold"></div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Firebase v9 modular -->
+<!-- Firebase SDK Módulo (v9+) -->
 <script type="module">
-  // Helper: escribir log en pantalla
-  const logEl = (s) => {
-    const el = document.getElementById('log');
-    el.textContent = (el.textContent ? el.textContent + '\n' : '') + s;
-    console.log(s);
-  };
-
-  // Importar Firebase
+  // Importar Firebase (versión modular)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-  // --- TU CONFIGURACIÓN de Firebase (cabinas-e8b5d) ---
+  // Configuración de Firebase (tuya)
   const firebaseConfig = {
     apiKey: "AIzaSyB8o6oeciBs-qI61GzKxS1FTXQR8KqFf04",
     authDomain: "cabinas-e8b5d.firebaseapp.com",
@@ -78,82 +114,40 @@
     measurementId: "G-XDCRE42YQE"
   };
 
-  try {
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    logEl('✅ Firebase inicializado correctamente.');
+  // Inicializar Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    // mostrar reservas en tiempo real ordenadas por timestamp descendente (si existe)
-    const q = query(collection(db, 'reservas'), orderBy('timestamp', 'desc'));
-    onSnapshot(q, (snap) => {
-      const tbody = document.getElementById('tablaReservas');
-      tbody.innerHTML = '';
-      if (snap.empty) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center">No hay reservas</td></tr>';
-        return;
-      }
-      snap.forEach(doc => {
-        const r = doc.data();
-        // si la fecha la guardaste como "YYYY-MM-DD" se muestra tal cual
-        const fila = `
-          <tr>
-            <td>${r.nombre || ''}</td>
-            <td>${r.dni || ''}</td>
-            <td>${r.whatsapp || ''}</td>
-            <td>${r.fecha || ''}</td>
-            <td>${r.inicio || ''}</td>
-            <td>${r.fin || ''}</td>
-          </tr>`;
-        tbody.innerHTML += fila;
+  // Guardar reserva
+  document.getElementById("reservaForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const nombre = document.getElementById("nombre").value.trim();
+    const dni = document.getElementById("dni").value.trim();
+    const whatsapp = document.getElementById("whatsapp").value.trim();
+    const fecha = document.getElementById("fechaReserva").value;
+    const inicio = document.getElementById("inicio").value;
+    const fin = document.getElementById("fin").value;
+
+    try {
+      await addDoc(collection(db, "reservas"), {
+        nombre,
+        dni,
+        whatsapp,
+        fecha,
+        inicio,
+        fin,
+        timestamp: new Date().toISOString()
       });
-      logEl(`🔄 Se actualizaron ${snap.size} reservas.`);
-    }, (err) => {
-      logEl('❌ Error onSnapshot: ' + err.message);
-    });
 
-    // formulario: guardar reserva
-    const form = document.getElementById('reservaForm');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      document.getElementById('resultado').textContent = '';
-      try {
-        const nombre = document.getElementById('nombre').value.trim();
-        const dni = document.getElementById('dni').value.trim();
-        const whatsapp = document.getElementById('whatsapp').value.trim();
-        const fecha = document.getElementById('fechaReserva').value;
-        const inicio = document.getElementById('inicio').value;
-        const fin = document.getElementById('fin').value;
-
-        if (!nombre || !dni || !whatsapp || !fecha || !inicio || !fin) {
-          document.getElementById('resultado').textContent = '⚠️ Completa todos los campos.';
-          return;
-        }
-
-        // agrega timestamp (Date ISO) para ordenar
-        const docRef = await addDoc(collection(db, 'reservas'), {
-          nombre, dni, whatsapp, fecha, inicio, fin,
-          timestamp: new Date().toISOString()
-        });
-
-        document.getElementById('resultado').textContent = '✅ Reserva guardada con éxito.';
-        document.getElementById('resultado').className = 'text-success fw-bold';
-        logEl('✅ Reserva agregada con ID: ' + docRef.id);
-        form.reset();
-      } catch (err) {
-        document.getElementById('resultado').textContent = '❌ Error al guardar la reserva. Revisa la consola.';
-        document.getElementById('resultado').className = 'text-danger fw-bold';
-        logEl('❌ Error addDoc: ' + (err && err.message ? err.message : err));
-      }
-    });
-
-  } catch(error) {
-    logEl('❌ Error inicializando Firebase: ' + (error.message || error));
-  }
-
-  // Captura errores globales y los muestra en el log
-  window.addEventListener('error', (ev) => {
-    const msg = ev.error ? ev.error.message : ev.message;
-    logEl('💥 Uncaught error: ' + msg);
+      document.getElementById("resultado").textContent = "✅ Reserva guardada con éxito.";
+      document.getElementById("resultado").className = "text-success fw-bold mt-3";
+      e.target.reset();
+    } catch (error) {
+      console.error("Error al guardar:", error);
+      document.getElementById("resultado").textContent = "❌ Error al guardar la reserva.";
+      document.getElementById("resultado").className = "text-danger fw-bold mt-3";
+    }
   });
 </script>
 
