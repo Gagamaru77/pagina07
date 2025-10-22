@@ -2,25 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Reservas de Cabinas - Net_Service</title>
+  <title>Reservar Cabina - Net_Service</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      padding-top: 56px;
-      background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1470&q=80');
-      background-size: cover;
-      background-attachment: fixed;
-    }
-    .card {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      padding: 30px;
-      margin: 20px auto;
-    }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-top:56px; background:#f5f7fb; }
+    .card { margin:20px auto; max-width:600px; border-radius:12px; padding:20px; }
   </style>
 </head>
 <body>
@@ -31,97 +18,69 @@
   </div>
 </nav>
 
-<div class="container mt-5 pt-3" style="max-width:600px;">
-  <h2 class="text-center mb-4">📅 Reservar Cabina</h2>
-  <form id="reservaForm" class="card p-4">
-    <div class="mb-3">
-      <label class="form-label">Nombre completo</label>
-      <input type="text" id="nombre" class="form-control" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">DNI</label>
-      <input type="text" id="dni" class="form-control" maxlength="8" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">WhatsApp</label>
-      <input type="tel" id="whatsapp" class="form-control" placeholder="999888777" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Fecha</label>
-      <input type="date" id="fechaReserva" class="form-control" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Hora inicio</label>
-      <input type="time" id="inicio" class="form-control" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Hora fin</label>
-      <input type="time" id="fin" class="form-control" required />
-    </div>
-    <button type="submit" class="btn btn-success w-100">Guardar Reserva</button>
-    <p id="resultado" class="text-center mt-3 fw-bold"></p>
-  </form>
+<div class="container">
+  <div class="card">
+    <h3 class="mb-3">📅 Reservar Cabina</h3>
+    <form id="reservaForm">
+      <div class="mb-2"><input class="form-control" id="nombre" placeholder="Nombre completo" required></div>
+      <div class="mb-2"><input class="form-control" id="dni" placeholder="DNI (8 dígitos)" pattern="\d{8}" required></div>
+      <div class="mb-2"><input class="form-control" id="whatsapp" placeholder="WhatsApp (ej. 51999888777)" required></div>
+      <div class="mb-2"><input class="form-control" id="fechaReserva" type="date" required></div>
+      <div class="mb-2"><input class="form-control" id="inicio" type="time" required></div>
+      <div class="mb-2"><input class="form-control" id="fin" type="time" required></div>
+      <button class="btn btn-success w-100" type="submit">Reservar</button>
+    </form>
+
+    <div class="mt-3 fw-bold" id="resultado"></div>
+  </div>
 </div>
 
-<!-- Firebase SDK -->
 <script type="module">
-  // ✅ Importar Firebase (v10)
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-  // 🔥 Tu configuración Firebase
+  // Configuración Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyB8o6oeciBs-qI61GzKxS1FTXQR8KqFf04",
     authDomain: "cabinas-e8b5d.firebaseapp.com",
     projectId: "cabinas-e8b5d",
-    storageBucket: "cabinas-e8b5d.appspot.com",
+    storageBucket: "cabinas-e8b5d.firebasestorage.app",
     messagingSenderId: "669006797267",
     appId: "1:669006797267:web:ee7f4a956082ea82f33726"
   };
 
-  // Inicializar Firebase y Firestore
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Capturar el formulario
-  const form = document.getElementById("reservaForm");
-  const resultado = document.getElementById("resultado");
-
-  form.addEventListener("submit", async (e) => {
+  // Guardar reserva
+  const form = document.getElementById('reservaForm');
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-
-    // 🔹 Capturar los valores correctamente
-    const nombre = document.getElementById("nombre").value.trim();
-    const dni = document.getElementById("dni").value.trim();
-    const whatsapp = document.getElementById("whatsapp").value.trim();
-    const fecha = document.getElementById("fechaReserva").value;
-    const inicio = document.getElementById("inicio").value;
-    const fin = document.getElementById("fin").value;
+    const nombre = document.getElementById('nombre').value.trim();
+    const dni = document.getElementById('dni').value.trim();
+    const whatsapp = document.getElementById('whatsapp').value.trim();
+    const fecha = document.getElementById('fechaReserva').value;
+    const inicio = document.getElementById('inicio').value;
+    const fin = document.getElementById('fin').value;
+    const resultado = document.getElementById('resultado');
 
     if (!nombre || !dni || !whatsapp || !fecha || !inicio || !fin) {
-      resultado.textContent = "⚠️ Por favor, completa todos los campos.";
-      resultado.className = "text-warning fw-bold";
+      resultado.textContent = "⚠️ Completa todos los campos.";
+      resultado.className = "text-danger";
       return;
     }
 
     try {
       await addDoc(collection(db, "reservas"), {
-        nombre,
-        dni,
-        whatsapp,
-        fecha,
-        inicio,
-        fin,
-        creado: serverTimestamp()
+        nombre, dni, whatsapp, fecha, inicio, fin,
+        timestamp: new Date().toISOString()
       });
-
       resultado.textContent = "✅ Reserva guardada correctamente.";
-      resultado.className = "text-success fw-bold";
+      resultado.className = "text-success";
       form.reset();
-    } catch (err) {
-      console.error("Error al guardar:", err);
-      resultado.textContent = "❌ Error al guardar la reserva.";
-      resultado.className = "text-danger fw-bold";
+    } catch (error) {
+      resultado.textContent = "❌ Error al guardar: " + error.message;
+      resultado.className = "text-danger";
     }
   });
 </script>
