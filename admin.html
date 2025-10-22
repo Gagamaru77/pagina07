@@ -1,140 +1,94 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Panel de Reservas - Admin</title>
+  <meta charset="UTF-8">
+  <title>Panel Admin - Net_Service</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="icon" href="https://www.pngkey.com/png/full/642-6421502_quote-calculator-ns-logo.png" />
-  <style>
-    #login { max-width: 320px; margin: 0 auto; }
-    #contenido { max-width: 900px; margin: 0 auto; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding-top: 56px;
-      background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1470&q=80');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      flex-direction: column;
-      padding-bottom: 120px;
-    }
-  </style>
 </head>
 <body class="bg-light">
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg bg-primary fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand text-white" href="index.html">Net_Service - Admin</a>
+    <a class="navbar-brand text-white" href="index.html">Panel Admin</a>
   </div>
 </nav>
 
-<!-- CONTENIDO -->
-<div class="container py-5 mt-5">
-  <h2 class="text-center mb-4">📋 Lista de Reservas</h2>
-  
-  <!-- LOGIN SIMPLE -->
+<div class="container mt-5 pt-5">
   <div id="login" class="text-center">
-    <input type="password" id="pass" placeholder="Contraseña de admin" class="form-control mb-3" />
-    <button class="btn btn-primary w-100" onclick="login()">Entrar</button>
+    <input type="password" id="pass" placeholder="Contraseña admin" class="form-control w-50 mx-auto mb-3" />
+    <button class="btn btn-primary" onclick="login()">Entrar</button>
   </div>
 
-  <!-- TABLA DE RESERVAS -->
-  <div id="contenido" style="display:none;">
-    <div class="table-responsive">
-      <table class="table table-bordered mt-3">
-        <thead class="table-primary">
-          <tr>
-            <th>Nombre</th>
-            <th>DNI</th>
-            <th>WhatsApp</th>
-            <th>Inicio</th>
-            <th>Fin</th>
-            <th>Fecha</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="tabla"></tbody>
-      </table>
-    </div>
+  <div id="panel" style="display:none;">
+    <h3 class="text-center my-3">📋 Reservas Registradas</h3>
+    <table class="table table-bordered table-hover">
+      <thead class="table-primary">
+        <tr>
+          <th>Nombre</th>
+          <th>DNI</th>
+          <th>WhatsApp</th>
+          <th>Fecha</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody id="tabla"></tbody>
+    </table>
   </div>
 </div>
 
-<!-- Firebase SDK v9 modular -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+  import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-  // 🔥 Tu configuración Firebase (cabinas-e8b5d)
   const firebaseConfig = {
     apiKey: "AIzaSyB8o6oeciBs-qI61GzKxS1FTXQR8KqFf04",
     authDomain: "cabinas-e8b5d.firebaseapp.com",
     projectId: "cabinas-e8b5d",
-    storageBucket: "cabinas-e8b5d.firebasestorage.app",
+    storageBucket: "cabinas-e8b5d.appspot.com",
     messagingSenderId: "669006797267",
-    appId: "1:669006797267:web:ee7f4a956082ea82f33726",
-    measurementId: "G-XDCRE42YQE"
+    appId: "1:669006797267:web:ee7f4a956082ea82f33726"
   };
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-
-  // 🔐 Contraseña del administrador
   const ADMIN_PASS = "Jose111";
 
-  // Login
-  window.login = () => {
-    const inputPass = document.getElementById("pass").value;
-    if (inputPass === ADMIN_PASS) {
-      document.getElementById("login").style.display = "none";
-      document.getElementById("contenido").style.display = "block";
-      cargarReservas();
-    } else {
-      alert("Contraseña incorrecta ❌");
-    }
+  window.login = async () => {
+    const pass = document.getElementById("pass").value;
+    if (pass !== ADMIN_PASS) return alert("Contraseña incorrecta");
+    document.getElementById("login").style.display = "none";
+    document.getElementById("panel").style.display = "block";
+    cargar();
   };
 
-  // Cargar reservas desde Firestore
-  async function cargarReservas() {
+  async function cargar() {
     const tabla = document.getElementById("tabla");
     tabla.innerHTML = "<tr><td colspan='7' class='text-center'>Cargando...</td></tr>";
 
-    const querySnapshot = await getDocs(collection(db, "reservas"));
+    const snap = await getDocs(collection(db, "reservas"));
     tabla.innerHTML = "";
 
-    if (querySnapshot.empty) {
-      tabla.innerHTML = "<tr><td colspan='7' class='text-center'>No hay reservas registradas.</td></tr>";
+    if (snap.empty) {
+      tabla.innerHTML = "<tr><td colspan='7' class='text-center'>No hay reservas.</td></tr>";
       return;
     }
 
-    querySnapshot.forEach((docSnap) => {
+    snap.forEach((docSnap) => {
       const r = docSnap.data();
       const id = docSnap.id;
-
-      const fechaFormateada = r.fecha
-        ? new Date(r.fecha).toLocaleDateString("es-ES", {
-            day: "2-digit",
-            month: "long",
-            year: "numeric"
-          })
-        : "—";
-
       const fila = `
         <tr>
-          <td>${r.nombre || ""}</td>
-          <td>${r.dni || ""}</td>
-          <td>${r.whatsapp || ""}</td>
-          <td>${r.inicio || ""}</td>
-          <td>${r.fin || ""}</td>
-          <td>${fechaFormateada}</td>
+          <td>${r.nombre}</td>
+          <td>${r.dni}</td>
+          <td>${r.whatsapp}</td>
+          <td>${r.fecha}</td>
+          <td>${r.inicio}</td>
+          <td>${r.fin}</td>
           <td>
-            <button class="btn btn-success btn-sm" onclick="confirmarReserva('${r.whatsapp}','${r.nombre}','${fechaFormateada}','${r.inicio}','${r.fin}')">Confirmar</button>
-            <button class="btn btn-danger btn-sm" onclick="cancelarReserva('${id}','${r.whatsapp}','${r.nombre}','${fechaFormateada}','${r.inicio}','${r.fin}')">Cancelar</button>
+            <button class="btn btn-danger btn-sm" onclick="eliminar('${id}')">🗑️</button>
           </td>
         </tr>
       `;
@@ -142,25 +96,13 @@
     });
   }
 
-  // Confirmar reserva por WhatsApp
-  window.confirmarReserva = (numero, nombre, fecha, inicio, fin) => {
-    if (!numero) return alert("El número de WhatsApp no está disponible.");
-    const mensaje = `✅ Hola ${nombre}, tu reserva para el ${fecha} de ${inicio} a ${fin} ha sido confirmada.`;
-    window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, "_blank");
-  };
-
-  // Cancelar reserva
-  window.cancelarReserva = async (id, numero, nombre, fecha, inicio, fin) => {
-    const seguro = confirm("¿Seguro que quieres cancelar esta reserva?");
-    if (!seguro) return;
-
-    await deleteDoc(doc(db, "reservas", id));
-    const mensaje = `❌ Hola ${nombre}, lamentamos informarte que tu reserva para el ${fecha} de ${inicio} a ${fin} ha sido cancelada.`;
-    if (numero) window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, "_blank");
-    cargarReservas();
+  window.eliminar = async (id) => {
+    if (confirm("¿Eliminar esta reserva?")) {
+      await deleteDoc(doc(db, "reservas", id));
+      cargar();
+    }
   };
 </script>
 
 </body>
 </html>
-
